@@ -1,0 +1,9 @@
+.root{
+    -fx-background-color: #00BFFF;
+}
+#textField{
+    -fx-background-color: #00BFFF;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+    -fx-border-color: #000000;
+}
