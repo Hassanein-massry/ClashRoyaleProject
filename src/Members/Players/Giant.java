@@ -7,7 +7,7 @@ public class Giant extends Player {
     public Giant(){
         setType("giant");
         setImage(new Image("Game/giant.png"));
-        setHitSpeed(1.5);
+        setHitSpeed(1500);
         setSpeed("Slow");
         setTarget("Buildings");
         setRange("Melee");

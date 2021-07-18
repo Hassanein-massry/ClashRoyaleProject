@@ -1,7 +1,9 @@
 package Game;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class Controller {
     @FXML
@@ -9,6 +11,7 @@ public class Controller {
     @FXML private Label levelLabel;
     @FXML private Label gameOverLabel;
     @FXML private View gameView;
+
     private Model myModel ;
 
     public void initialize() throws InterruptedException {
@@ -17,7 +20,9 @@ public class Controller {
         this.gameView.update();
         Thread thread = new Thread(myTask);
         thread.start();
-       // new Thread(modelUpdate).start();
+       // new Thread(runnable).start();
+        // new Thread(modelUpdate).start();
+      //  new Thread(runnable).start();
     }
     Runnable myTask = new Runnable() {
         @Override
@@ -41,7 +46,6 @@ public class Controller {
             }
         }
     };
-
 
 
 

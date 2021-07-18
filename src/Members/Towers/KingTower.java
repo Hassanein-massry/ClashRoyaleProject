@@ -5,8 +5,9 @@ import Members.Tower;
 public class KingTower extends Tower {
     public KingTower(){
         //setImage()
+        setTower(true);
         setRange("7");
-        setHitSpeed(1);
+        setHitSpeed(1000);
         if (getLevel() == 1){
             setHP(2400);
             setDamage(50);

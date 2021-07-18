@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 public class MiniPekka extends Player {
     public MiniPekka(){
         setImage(new Image("Game/mini.png"));
-        setHitSpeed(1.8);
+        setHitSpeed(1800);
         setType("miniPekka");
         setSpeed("Fast");
         setTarget("Ground");

@@ -11,7 +11,7 @@ public class Archer extends Player {
         setType("archer");
         //setting all the proprieties of the archer player
         setImage(new Image("Game/archer.png"));
-        setHitSpeed(1.2);
+        setHitSpeed(1200);
         setSpeed("Medium");
         setTarget("Ground & Air");
         setRange("5");
@@ -20,7 +20,7 @@ public class Archer extends Player {
         setCount(2);
         if (getLevel() == 1){
             setHP(125);
-            setDamage(3);
+            setDamage(30);
         }else if (getLevel() == 2){
             setHP(127);
             setDamage(44);

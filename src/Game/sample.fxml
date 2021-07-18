@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextField?>
 <BorderPane fx:controller="Game.Controller" style="-fx-background-color: black;" xmlns:fx="http://javafx.com/fxml">
     <top>
         <BorderPane prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
@@ -17,4 +18,7 @@
     <center>
         <View fx:id="gameView" />
     </center>
+    <bottom>
+
+    </bottom>
 </BorderPane>

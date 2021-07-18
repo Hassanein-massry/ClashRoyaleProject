@@ -1,9 +1,8 @@
 package Members;
 
-import Game.Location;
-import javafx.scene.image.Image;
+import Game.Member;
 
-public class Building extends Member{
+public class Building extends Member {
 public Building(){
    // setType("Building");
 }

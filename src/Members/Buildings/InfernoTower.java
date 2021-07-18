@@ -16,7 +16,7 @@ public class InfernoTower extends Building {
     public InfernoTower(){
         setType("infernoTower");
         setImage(new Image("Game/inferno.png"));
-        setHitSpeed(0.4);
+        setHitSpeed(400);
         setTarget("Ground & Air");
         setRange("6");
         setLifeTime(40);

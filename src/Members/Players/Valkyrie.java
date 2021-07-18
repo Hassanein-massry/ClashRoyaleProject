@@ -7,7 +7,7 @@ public class Valkyrie extends Player {
     public Valkyrie(){
         setType("valkyrie");
         setImage(new Image("Game/valkirye.png"));
-        setHitSpeed(1.5);
+        setHitSpeed(1500);
         setSpeed("Medium");
         setTarget("Ground");
         setRange("Melee");

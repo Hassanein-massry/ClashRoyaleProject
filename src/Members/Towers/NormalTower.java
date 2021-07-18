@@ -5,8 +5,11 @@ import Members.Tower;
 public class NormalTower extends Tower {
     public NormalTower(){
         //setImage()
+        setTower(true);
+        setAlive(true);
+        setLevel(1);
         setRange("7.5");
-        setHitSpeed(0.8);
+        setHitSpeed(800);
         if (getLevel() == 1){
             setHP(1400);
             setDamage(50);

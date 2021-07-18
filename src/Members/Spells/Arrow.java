@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 public class Arrow extends Spell {
     public Arrow(){
+        setHP(1);
         setType("arrow");
         setRadius(4);
         setCost(3);

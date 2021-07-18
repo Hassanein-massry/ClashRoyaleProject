@@ -10,7 +10,7 @@ public class Barbarian extends Player {
         setType("barbarian");
         //setting all the information of the barbariana
         setImage(new Image("/Game/barbarian.jpg"));
-        setHitSpeed(1.5);
+        setHitSpeed(1500);
         setSpeed("Medium");
         setTarget("Ground");
         setRange("Melee");

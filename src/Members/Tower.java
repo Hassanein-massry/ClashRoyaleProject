@@ -1,11 +1,8 @@
 package Members;
 
-import Game.Location;
-import javafx.scene.image.Image;
+import Game.Member;
 
-import java.util.Locale;
-
-public class Tower extends Member{
+public class Tower extends Member {
     /**
      * constructor
      */

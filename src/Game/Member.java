@@ -1,17 +1,66 @@
-package Members;
+package Game;
 
 import Game.Location;
 import Game.Model;
 import javafx.scene.image.Image;
 
+import java.util.concurrent.TimeUnit;
+
 public class Member {
+    public Member(){
+        setLevel(1);
+        setAlive(true);
+        setHittingMode(false);
+    }
+
+    public boolean isHittingMode() {
+        return isHittingMode;
+    }
+
+    public void setHittingMode(boolean hittingMode) {
+        isHittingMode = hittingMode;
+    }
+
+    private boolean isHittingMode;
+
+    public boolean isTower() {
+        return isTower;
+    }
+
+    public void setTower(boolean tower) {
+        isTower = tower;
+    }
+
+    private boolean isTower ;
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    private boolean isAlive ;
+
 
     private String type ;
     //define the speed of hit
     private double hitSpeed ;
     //define the target type
-
     private String target ;
+
+    public boolean isEsnemie() {
+        return isEsnemie;
+    }
+
+    public void setEsnemie(boolean esnemie) {
+        isEsnemie = esnemie;
+    }
+
+    //define the case of ennemie in players
+    boolean isEsnemie ;
+
     //define the range
     private String Range ;
     //define the life time of the spell
@@ -102,18 +151,17 @@ public class Member {
         this.location = location;
     }
 
-    public void setTheLocation (Location location , Model model){
-        int x = location.getX();
-        int y = location.getY();
-        for (int i = 0 ; i <13 ; i++){
-            for (int j = 0 ; j <22 ; j++){
-                if (model.back[i][j]==this){
-                   // model.back[i][j] = null;
-                }
-            }
-            model.back[x][y] =this ;
+    public void setTheLocation (Location oldlocation ,Location newLocation, Model model){
+        int oldRow = oldlocation.getX();
+        int oldColumn = oldlocation.getY();
+        int newRow = newLocation.getX();
+        int newColumn = newLocation.getY();
+            model.back[newRow][newColumn] = this;
+            model.back[oldRow][oldColumn] = null;
+         //   model.grid[oldRow][oldColumn] = Model.CellValue.GROUND;
+            setLocation(newLocation);
 
-        }    }
+        }
 
 
     /**
@@ -291,6 +339,43 @@ public class Member {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void StartMyTurn(Model model) throws InterruptedException {
+        while (isAlive==true){
+            while (location.getX()<2) {
+                int row = location.getX();
+                int column = location.getY();
+                if (model.grid[row + 1][column] == Model.CellValue.GROUND) {
+                    setTheLocation(new Location(row,column) , new Location(row+1 , column) ,model);
+                    row = row + 1;
+                    switch (getSpeed()) {
+                        case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                        case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                        case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+
+                    }
+                    break;
+                }
+
+            }
+
+            while (location.getX() > 2) {
+                int row = location.getX();
+                int column = location.getY();
+                if (model.grid[row - 1][column] == Model.CellValue.GROUND) {
+                 setTheLocation(new Location(row-1,column) , new Location(row,column) ,model);
+                    row = row - 1;
+
+                    switch (getSpeed()) {
+                        case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                        case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                        case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                    }
+                }
+            }
+            break;
+        }
     }
 
 

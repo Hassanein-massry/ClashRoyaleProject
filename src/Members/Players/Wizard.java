@@ -7,7 +7,7 @@ public class Wizard extends Player {
         public Wizard(){
             setType("wizard");
             setImage(new Image("Game/wizard.png"));
-            setHitSpeed(1.7);
+            setHitSpeed(1700);
             setSpeed("Medium");
             setTarget("Ground & Air");
             setRange("5");

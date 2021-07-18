@@ -1,9 +1,6 @@
 package Game;
 
-import Members.Member;
 import Members.Players.Archer;
-import javafx.scene.control.Cell;
-import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +13,7 @@ public class Model {
     public CellValue grid[][];
     public Member back[][];
     enum CellValue{
-       BLUEKING ,REDKING , PRINCESS, EMPTY ,DECKS , GROUND , LIMIT , ARCHER , DECK , CANNON , INFERNO ,BABYDRAGON , BARBARIAN ,GIANT , MINIPEKKA , VALKYRIE , WIZARD , ARROW , FIREBALL ,RAGE
+      ENNEMIEPRINCESS, BLUEKING ,REDKING , PRINCESS, EMPTY ,DECKS , GROUND , LIMIT , ARCHER , DECK , CANNON , INFERNO ,BABYDRAGON , BARBARIAN ,GIANT , MINIPEKKA , VALKYRIE , WIZARD , ARROW , FIREBALL ,RAGE
     }
     public Model() throws InterruptedException {
         this.intializeTheGame("C:\\Users\\Envy\\FinalProject\\src\\Game\\text");
@@ -80,7 +77,10 @@ public class Model {
                     case'P':
                         thisValue = CellValue.PRINCESS;
                         break;
-                        
+                    case '!':
+                        thisValue = CellValue.ENNEMIEPRINCESS;
+                        break;
+
                 }
                 grid[row][column] = thisValue;
                 counter++;
@@ -135,20 +135,102 @@ public class Model {
     }
 
     public void updateHelper(int row , int column , String type , CellValue cellValue) throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    moveThePlayer(row,column,back[row][column]);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    //  new Thread(runnable).start();
         if (back[row][column]!=null)
             if (back[row][column].getType()!=null)
               if (back[row][column].getType().equals(type)) {
                  //   System.out.println("))))))))))))))))))))))))))))"+back[row][column]);
                   grid[row][column] = cellValue;
 
+
             }
 
         }
 
-        public void moveThrPlayers(){
+    public void moveThePlayer(int row , int column , Member member) throws InterruptedException {
+        if (member!=null){
+        int i = 1 ;
+        int j = 1;
+        int z = 1 ;
+        if (row <= 2){
+            while(row+i <=2){
+                back[row+i][column] =back[row+i-1][column];
+               grid[row+i-1][column]= CellValue.GROUND;
+                back[row+i-1][column] = null;
+                i++;
+              /*  switch (member.getSpeed()){
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }*/}
+            while (column+z<18){
+                back[row][column+z] = back[row][column+z-1];
+                grid[row][column+z-1]= CellValue.GROUND;
+                back[row][column+z-1] = null;
+                z++;
+                switch (member.getSpeed()){
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }
 
+            }
+            z=1;
+
+        }else if (row > 2){
+            while(row-j >=2){
+                back[row-j][column] =back[row-j+1][column];
+              grid[row-j+1][column]= CellValue.GROUND;
+                back[row-j+1][column] = null;
+
+                j++;
+
+                switch (member.getSpeed()){
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }}
+
+            while (column+z<18){
+                back[row][column+z] = back[row][column+z-1];
+                grid[row][column+z-1]= CellValue.GROUND;
+                back[row][column+z-1] = null;
+                z++;
+                switch (member.getSpeed()){
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }
+
+            }
+
+
+        }else if (row==2){
+            while (column+z<18){
+               back[row][column+z] = back[row][column+z-1];
+                grid[row][column+z-1]= CellValue.GROUND;
+               back[row][column+z-1] = null;
+                z++;
+                switch (member.getSpeed()){
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }
+
+            }
         }
     }
+    }}
 
 
 

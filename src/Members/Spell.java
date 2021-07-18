@@ -1,9 +1,8 @@
 package Members;
 
-import Game.Location;
-import javafx.scene.image.Image;
+import Game.Member;
 
-public class Spell extends Member{
+public class Spell extends Member {
    public Spell(){
      //  setType("Spell");
    }

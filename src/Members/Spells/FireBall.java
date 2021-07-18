@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 public class FireBall extends Spell {
     public FireBall(){
+        setHP(1);
         setType("fireBall");
         setRadius(2.5);
         setCost(4);

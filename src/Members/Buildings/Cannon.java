@@ -9,7 +9,7 @@ public class Cannon extends Building {
     public Cannon(){
         setType("cannon");
         setImage(new Image("Game/cannon.jpeg"));
-        setHitSpeed(0.8);
+        setHitSpeed(800);
         setTarget("Ground");
         setRange("5.5");
         setLifeTime(30);

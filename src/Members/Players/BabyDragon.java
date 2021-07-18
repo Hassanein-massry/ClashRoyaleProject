@@ -7,7 +7,7 @@ public class BabyDragon extends Player {
     public BabyDragon(){
         setType("babyDragon");
         setImage(new Image("Game/babyDragon.png"));
-        setHitSpeed(1.8);
+        setHitSpeed(1800);
         setSpeed("Fast");
         setTarget("Ground & Air");
         setRange("3");
