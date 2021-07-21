@@ -13,7 +13,7 @@ public class Model {
     public CellValue grid[][];
     public Member back[][];
     enum CellValue{
-      ENNEMIEPRINCESS, BLUEKING ,REDKING , PRINCESS, EMPTY ,DECKS , GROUND , LIMIT , ARCHER , DECK , CANNON , INFERNO ,BABYDRAGON , BARBARIAN ,GIANT , MINIPEKKA , VALKYRIE , WIZARD , ARROW , FIREBALL ,RAGE
+      ENNEMIEPRINCESS, BLUEKING ,REDKING , PRINCESS,RIGHTPRICESS, EMPTY ,DECKS , GROUND , LIMIT , ARCHER ,RIGHTARCHER, DECK , CANNON ,RIGHTCANNON, INFERNO ,RIGHTINFERNO,RIGHTBABYDRAGON,BABYDRAGON ,RIGHTBARBARIAN, BARBARIAN ,RIGHTGIANT ,GIANT,RIGHTMINIPEKKA, MINIPEKKA ,RIGHTVALKYRIE, VALKYRIE ,RIGHTWIZARD, WIZARD , ARROW , FIREBALL ,RAGE
     }
     public Model() throws InterruptedException {
         this.intializeTheGame("C:\\Users\\Envy\\FinalProject\\src\\Game\\text");
@@ -119,118 +119,41 @@ public class Model {
         String NormalTower = "normalTower";
         for (int row  = 0 ; row < rowCount ; row ++){
             for (int column = 0 ; column < columnCount ; column++){
-                updateHelper(row,column,Arrow,CellValue.ARROW);
-                updateHelper(row,column,Cannon,CellValue.CANNON);
-                updateHelper(row,column,InfernoTower,CellValue.INFERNO);
-                updateHelper(row,column,Archer,CellValue.ARCHER);
-                updateHelper(row,column,BabyDragon,CellValue.BABYDRAGON);
-                updateHelper(row,column,Barbarian,CellValue.BARBARIAN);
-                updateHelper(row,column,Giant,CellValue.GIANT);
-                updateHelper(row,column,MiniPekka,CellValue.MINIPEKKA);
-                updateHelper(row,column,Valkyrie,CellValue.VALKYRIE);
-                updateHelper(row,column,Wizard,CellValue.WIZARD);
-                updateHelper(row,column,FireBall,CellValue.FIREBALL);
+                updateHelper(row,column,Arrow,CellValue.ARROW , CellValue.ARROW);
+                updateHelper(row,column,Cannon,CellValue.CANNON,CellValue.RIGHTCANNON);
+                updateHelper(row,column,InfernoTower,CellValue.INFERNO,CellValue.RIGHTINFERNO);
+                updateHelper(row,column,Archer,CellValue.ARCHER,CellValue.RIGHTARCHER);
+                updateHelper(row,column,BabyDragon,CellValue.BABYDRAGON,CellValue.RIGHTBABYDRAGON);
+                updateHelper(row,column,Barbarian,CellValue.BARBARIAN,CellValue.RIGHTBARBARIAN);
+                updateHelper(row,column,Giant,CellValue.GIANT,CellValue.RIGHTGIANT);
+                updateHelper(row,column,MiniPekka,CellValue.MINIPEKKA,CellValue.RIGHTMINIPEKKA);
+                updateHelper(row,column,Valkyrie,CellValue.VALKYRIE,CellValue.RIGHTVALKYRIE);
+                updateHelper(row,column,Wizard,CellValue.WIZARD,CellValue.RIGHTWIZARD);
+                updateHelper(row,column,FireBall,CellValue.FIREBALL,CellValue.FIREBALL);
             }
         }
     }
 
-    public void updateHelper(int row , int column , String type , CellValue cellValue) throws InterruptedException {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    moveThePlayer(row,column,back[row][column]);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+    public void updateHelper(int row , int column , String type , CellValue cellValue , CellValue rightCellValue) throws InterruptedException {
     //  new Thread(runnable).start();
         if (back[row][column]!=null)
             if (back[row][column].getType()!=null)
               if (back[row][column].getType().equals(type)) {
                  //   System.out.println("))))))))))))))))))))))))))))"+back[row][column]);
+                  if (!back[row][column].isInRight())
                   grid[row][column] = cellValue;
-
-
+                  else
+                      grid[row][column]=rightCellValue;
             }
 
         }
 
-    public void moveThePlayer(int row , int column , Member member) throws InterruptedException {
-        if (member!=null){
-        int i = 1 ;
-        int j = 1;
-        int z = 1 ;
-        if (row <= 2){
-            while(row+i <=2){
-                back[row+i][column] =back[row+i-1][column];
-               grid[row+i-1][column]= CellValue.GROUND;
-                back[row+i-1][column] = null;
-                i++;
-              /*  switch (member.getSpeed()){
-                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
-                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
-                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
-                }*/}
-            while (column+z<18){
-                back[row][column+z] = back[row][column+z-1];
-                grid[row][column+z-1]= CellValue.GROUND;
-                back[row][column+z-1] = null;
-                z++;
-                switch (member.getSpeed()){
-                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
-                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
-                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
-                }
-
-            }
-            z=1;
-
-        }else if (row > 2){
-            while(row-j >=2){
-                back[row-j][column] =back[row-j+1][column];
-              grid[row-j+1][column]= CellValue.GROUND;
-                back[row-j+1][column] = null;
-
-                j++;
-
-                switch (member.getSpeed()){
-                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
-                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
-                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
-                }}
-
-            while (column+z<18){
-                back[row][column+z] = back[row][column+z-1];
-                grid[row][column+z-1]= CellValue.GROUND;
-                back[row][column+z-1] = null;
-                z++;
-                switch (member.getSpeed()){
-                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
-                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
-                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
-                }
-
-            }
 
 
-        }else if (row==2){
-            while (column+z<18){
-               back[row][column+z] = back[row][column+z-1];
-                grid[row][column+z-1]= CellValue.GROUND;
-               back[row][column+z-1] = null;
-                z++;
-                switch (member.getSpeed()){
-                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
-                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
-                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
-                }
 
-            }
         }
-    }
-    }}
+
+
 
 
 

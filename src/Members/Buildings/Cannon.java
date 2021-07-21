@@ -13,7 +13,7 @@ public class Cannon extends Building {
         setTarget("Ground");
         setRange("5.5");
         setLifeTime(30);
-        setCost(6);
+        setCost(3);
         if (getLevel()==1){
             setHP(380);
             setDamage(60);

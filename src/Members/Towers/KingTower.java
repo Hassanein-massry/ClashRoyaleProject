@@ -8,6 +8,7 @@ public class KingTower extends Tower {
         setTower(true);
         setRange("7");
         setHitSpeed(1000);
+        setType("tower");
         if (getLevel() == 1){
             setHP(2400);
             setDamage(50);

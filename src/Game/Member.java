@@ -11,6 +11,7 @@ public class Member {
         setLevel(1);
         setAlive(true);
         setHittingMode(false);
+        setInRight(false);
     }
 
     public boolean isHittingMode() {
@@ -42,6 +43,16 @@ public class Member {
     }
 
     private boolean isAlive ;
+
+    public boolean isInRight() {
+        return inRight;
+    }
+
+    public void setInRight(boolean inRight) {
+        this.inRight = inRight;
+    }
+
+    private boolean inRight ;
 
 
     private String type ;

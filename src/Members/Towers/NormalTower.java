@@ -7,6 +7,7 @@ public class NormalTower extends Tower {
         //setImage()
         setTower(true);
         setAlive(true);
+        setType("tower");
         setLevel(1);
         setRange("7.5");
         setHitSpeed(800);

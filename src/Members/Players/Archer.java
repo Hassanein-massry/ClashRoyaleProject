@@ -19,19 +19,19 @@ public class Archer extends Player {
         setCost(3);
         setCount(2);
         if (getLevel() == 1){
-            setHP(125);
+            setHP(300);
             setDamage(30);
         }else if (getLevel() == 2){
-            setHP(127);
+            setHP(350);
             setDamage(44);
         }else if (getLevel() == 3){
-            setHP(151);
+            setHP(400);
             setDamage(48);
         } else if (getLevel() == 4){
-            setHP(166);
+            setHP(450);
             setDamage(53);
         }else if (getLevel() == 5){
-            setHP(182);
+            setHP(500);
             setDamage(58);
         }
 
