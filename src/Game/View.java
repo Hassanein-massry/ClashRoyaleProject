@@ -183,8 +183,8 @@ public class View extends Group {
         this.PrincessLeft = new Image("Game/archer left tower.gif");
 
         //add all the names of cards to the cards array list
-        myCards.add("cannon");
-        myCards.add("inferno tower");
+      //  myCards.add("cannon");
+      //  myCards.add("inferno tower");
         myCards.add("archer");
         myCards.add("baby dragon");
         myCards.add("barbarian");
@@ -315,7 +315,7 @@ public class View extends Group {
                 }
 
                 if (value == Model.CellValue.RIGHTBARBARIAN){
-                    cells[row][column].setImage(rightHittingBarb);
+                    cells[row][column].setImage(rightBarbarian);
                     if (model.back[row][column]!=null && model.back[row][column].isHittingMode())
                         cells[row][column].setImage(rightHittingBarb);
                 }
@@ -541,13 +541,27 @@ if(model.back[2][6]==null || model.back[8][6]==null){
 }
 
 if(counter>0 || counter5>0){
-    if(model.back[5][4] ==null)
+    if(model.back[5][4] ==null){
         System.out.println("You lose");
-    if (model.back[5][19]==null)
+        for(int i = 0 ; i < 12; i++)
+            for (int j = 0 ;j < 22 ; j ++){
+                model.back[i][j] = null;
+                model.grid[i][j] = Model.CellValue.GROUND;
+            }
+    }
+    if (model.back[5][19]==null){
         System.out.println("You win");
+        for(int i = 0 ; i < 12; i++)
+            for (int j = 0 ;j < 22 ; j ++){
+                model.back[i][j] = null;
+                model.grid[i][j] = Model.CellValue.GROUND;
+
+            }
+    }
 
 
 }
+        System.out.println("first tower" + myFirstTowerHP);
     }
 
 
@@ -563,7 +577,7 @@ if(counter>0 || counter5>0){
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+model.back[X][Y].getType());
         }
         if (cellValue == Model.CellValue.ARROW){
-            flag=1;
+            flag=4;
             Arrow arrow = new Arrow();
             arrow.setLocation(location);
             model.back[X][Y] = arrow;
@@ -588,7 +602,7 @@ if(counter>0 || counter5>0){
             model.back[X][Y] = cannon;
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>."+model.back[X][Y].getType());
         }if (cellValue == Model.CellValue.FIREBALL){
-            flag=1;
+            flag=3;
             FireBall fireBall = new FireBall();
             fireBall.setLocation(location);
             model.back[X][Y] = fireBall;
@@ -599,7 +613,7 @@ if(counter>0 || counter5>0){
             model.back[X][Y] = giant;
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>."+model.back[X][Y].getType());
         }if (cellValue == Model.CellValue.INFERNO){
-            flag=1;
+            flag=2;
             InfernoTower infernoTower = new InfernoTower();
             infernoTower.setLocation(location);
             model.back[X][Y] = infernoTower;
@@ -632,9 +646,11 @@ if(counter>0 || counter5>0){
 
             }
         };
-        if (flag!=1)
+        if (flag==0)
         new Thread(runnable).start();
-
+        else if (flag==1){
+            ShlickCannon(X,Y);
+        }
 
         model.update();
     }
@@ -651,10 +667,10 @@ if(counter>0 || counter5>0){
         while (member.isAlive()) {
             if (Math.abs(row-2)<=Math.abs(8-row)){
             moveToTheFirstTower(row,column,member);
-
             }
             else
                 moveToTheSecondTower(row,column,member);
+
             moveToTheKingTower(member);
             if (member.getHP()<=0) { ;
                 member.setAlive(false);
@@ -665,6 +681,27 @@ if(counter>0 || counter5>0){
 
 
     }}
+
+
+    public void moveTheEnnemiesPlayers(int temprow , int tempcolumn, Member member) throws InterruptedException {
+        if (member!=null){
+            int row = temprow ;
+            int column = tempcolumn ;
+            while (member.isAlive()) {
+                if (Math.abs(row-2)<=Math.abs(8-row)){
+                    moveToMyFirstTower(row,column,member);
+                }
+                else
+                    moveToMySecondTower(row,column,member);
+                moveToMyKingTower(member);
+                if (member.getHP()<=0) { ;
+                    member.setAlive(false);
+                    System.out.println(member.getType()+"yes+");
+                }
+
+            }
+    }
+    }
 
     public void Shlick(int row , int column , int row1 , int column1 ) throws InterruptedException {
         int HP = 0;
@@ -700,7 +737,28 @@ if(counter>0 || counter5>0){
         //model.back[row1][column1] = model.back[row][column];
         //model.back[row][column]= null;
         //model.grid[row][column]= Model.CellValue.GROUND;
-        moveToTheFirstTower(row,column,model.back[row][column]);
+       // moveToTheFirstTower(row,column,model.back[row][column]);
+        if(model.back[row][column].isEsnemie){
+            if (model.back[2][6]!=null ){
+                moveToMyFirstTower(row,column,model.back[row][column]);
+            }
+            else if(model.back[8][6]!=null){
+                moveToMySecondTower(row,column,model.back[row][column]);
+            }else if (model.back[5][4]!=null){
+                moveToMyKingTower(model.back[row][column]);
+            }
+
+        }else {
+            if (model.back[2][17]!=null ){
+                moveToTheFirstTower(row,column,model.back[row][column]);
+            }
+            else if(model.back[8][17]!=null){
+                moveToTheSecondTower(row,column,model.back[row][column]);
+            }else if (model.back[5][4]!=null){
+                moveToTheKingTower(model.back[row][column]);
+            }
+
+        }
     }
     public void moveToY(int row , int column ,Member member) throws InterruptedException {
         int z=1;
@@ -826,6 +884,7 @@ Runnable TowerRunnable = new Runnable() {
                                     model.back[i][j].setHP(model.back[i][j].getHP()-Damage);
                                     System.out.println(" ^^^^ "+model.back[i][j].getType()+" +"+ model.back[i][j].getHP());
                                     //  System.out.println("Speed "+model.back[row][column].getHitSpeed());
+                                    model.back[row][column].setHP(model.back[row][column].getHP()-100);
                                     TimeUnit.MILLISECONDS.sleep(speed);
                                 }
                                 model.back[row][column].setHittingMode(false);
@@ -857,7 +916,7 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                 //System.out.println( "i>"+i+"j"+j);
                 if (model.back[i][j]!= null){
                     int speed = (int)model.back[row][column].getHitSpeed();
-                    if (!model.back[i][j].isEsnemie()){
+                    if (model.back[i][j].isEsnemie()){
                         cells[row][column].setImage(kingRight);
                         while ( model.back[i][j]!=null &&model.back[i][j].getHP()>0 ){
                             model.back[i][j].setHP(model.back[i][j].getHP()-Damage);
@@ -987,6 +1046,11 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                 }else if (model.back[row][column].getTarget().equals("Buildings")){
                     if(model.back[row][column+1].getType().equals("tower")){
                         Shlick(row,column,row,column+1);
+                    }else if(model.grid[row][column+1]!= Model.CellValue.GROUND){
+                        model.back[row][column+2] = model.back[row][column];
+                        model.back[row][column] =null;
+                        model.grid[row][column]= Model.CellValue.GROUND;
+
                     }
                 }
 
@@ -1095,6 +1159,12 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                 }else if (model.back[row][column].getTarget().equals("Buildings")){
                     if(model.back[row][column+1].getType().equals("tower")){
                         Shlick(row,column,row,column+1);
+                    }
+                    else if(model.grid[row][column+1]!= Model.CellValue.GROUND){
+                        model.back[row][column+2] = model.back[row][column];
+                        model.back[row][column] =null;
+                        model.grid[row][column]= Model.CellValue.GROUND;
+
                     }}
             }else if (!model.back[row][column+1].isEsnemie){
                 model.back[row][column+2] = model.back[row][column];
@@ -1209,6 +1279,7 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                         if (model.back[i][j]!=null){
                             if(model.back[i][j].isEsnemie){
                                 while (model.back[i][j] !=null && model.back[i][j].getHP()>0){
+                                    model.back[row][column].setHittingMode(true);
                                     model.back[i][j].setHP(model.back[i][j].getHP()-damage);
                                     System.out.println("fucked"+model.back[i][j].getHP());
                                     TimeUnit.MILLISECONDS.sleep(speedOfHit);
@@ -1435,7 +1506,7 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
         if (flag!=1){
         exir2-=cost;
         model.back[i][j].setInRight(true);
-        moveToMyFirstTower(i,j,model.back[i][j]);
+        moveTheEnnemiesPlayers(i,j,model.back[i][j]);
         }
        }
 
@@ -1538,6 +1609,11 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                 System.out.println("!!!");
                 if(model.back[row][column-1].getType().equals("tower")){
                     Shlick(row,column,row,column-1);
+                }else if(model.grid[row][column-1]!= Model.CellValue.GROUND){
+                    model.back[row][column-2] = model.back[row][column];
+                    model.back[row][column] =null;
+                    model.grid[row][column]= Model.CellValue.GROUND;
+
                 }
             }
         }else if (model.back[row][column+1].isEsnemie){
@@ -1563,4 +1639,248 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
     }
 
 }
+
+public void moveToMySecondTower(int row , int column ,Member member) throws InterruptedException {
+    while (row < 8 && member!=null) {
+        if (model.grid[row + 1][column] == Model.CellValue.GROUND) {
+            model.back[row + 1][column] = model.back[row][column];
+            member = model.back[row+1][column];
+            member.setLocation(new Location(row+1,column));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            row = row + 1;
+            switch (member.getSpeed()) {
+                case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+            }
+        }
+        else if (model.back[row+1][column].isEsnemie){
+            model.back[row + 2][column] = model.back[row][column];
+            member = model.back[row+2][column];
+            member.setLocation(new Location(row+2,column));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            row = row + 2;
+        }else {
+            Thread.sleep(100);
+        }
+
+    }
+    while (row > 8&& member!=null) {
+        System.out.println("its greater "+member.getType());
+        if (model.grid[row - 1][column] == Model.CellValue.GROUND) {
+            model.back[row - 1][column] = model.back[row][column];
+            member = model.back[row-1][column];
+            member.setLocation(new Location(row-1,column));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            row = row - 1;
+            if (member.getSpeed()!=null)
+                switch (member.getSpeed()) {
+                    case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                    case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                    case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                }
+        } else if (model.back[row-1][column].isEsnemie){
+            model.back[row - 2][column] = model.back[row][column];
+            member = model.back[row-2][column];
+            member.setLocation(new Location(row-2,column));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            row = row - 2;
+        }else
+            Thread.sleep(100);
+    }
+    while (column >4  && member!=null) {
+        if (model.grid[row][column - 1] == Model.CellValue.GROUND) {
+            model.back[row][column - 1] = model.back[row][column];
+            member = model.back[row][column - 1];
+            member.setLocation(new Location(row,column-1));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            column--;
+
+            switch (member.getSpeed()) {
+                case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+            }
+        } else if (model.back[row][column-1]!=null &&!model.back[row][column - 1].isEsnemie()) {
+            System.out.println("i am here +");
+
+            if (model.back[row][column].getTarget().equals("Ground")){
+                System.out.println("!");
+                if(model.back[row][column-1].getType().equals("archer")||model.back[row][column-1].getType().equals("barbarian")||model.back[row][column-1].getType().equals("valkyrie")||model.back[row][column-1].getType().equals("wizard")||model.back[row][column-1].getType().equals("cannon")||model.back[row][column-1].getType().equals("infernoTower")||model.back[row][column-1].getType().equals("tower")||model.back[row][column-1].getType().equals("giant")){
+                    Shlick(row, column, row, column - 1);
+                }
+            }else if(model.back[row][column].getTarget().equals("Ground & Air")){
+                System.out.println("!!");
+                if(model.back[row][column-1].getType().equals("archer")||model.back[row][column-1].getType().equals("barbarian")||model.back[row][column-1].getType().equals("valkyrie")||model.back[row][column-1].getType().equals("wizard")||model.back[row][column-1].getType().equals("cannon")||model.back[row][column-1].getType().equals("infernoTower")||model.back[row][column-1].getType().equals("tower")||model.back[row][column-1].getType().equals("giant") ||model.back[row][column-1].getType().equals("babyDragon")){
+                    Shlick(row, column, row, column - 1);
+                }
+            }else if (model.back[row][column].getTarget().equals("Buildings")){
+                System.out.println("!!!");
+                if(model.back[row][column-1].getType().equals("tower")){
+                    Shlick(row,column,row,column-1);
+                }
+                else if(model.grid[row][column-1]!= Model.CellValue.GROUND){
+                    model.back[row][column-2] = model.back[row][column];
+                    model.back[row][column] =null;
+                    model.grid[row][column]= Model.CellValue.GROUND;
+
+                }
+            }
+        }else if (model.back[row][column+1].isEsnemie){
+            model.back[row][column+2] = model.back[row][column];
+            member = model.back[row][column+2];
+            member.setLocation(new Location(row,column+2));
+            model.grid[row][column] = Model.CellValue.GROUND;
+            model.back[row][column] = null;
+            column=column +2;
+        }else {
+            if(model.grid[row][column - 1] != Model.CellValue.GROUND){
+                System.out.println("this is the case+");
+                ShlickInRange(row,column,member);
+                Thread.sleep(500);
+            }
+            Thread.sleep(500);
+        }
+        if(row==2 && column==4)
+            break;
+
+
+        //break;
+    }
+
+}
+
+
+
+
+    public void ShlickCannon(int row, int column){
+        Runnable cannonRunnable = new Runnable( ) {
+            @Override
+            public void run() {
+
+                boolean x=true;
+                long displayMinutes=0;
+                long starttime=System.currentTimeMillis();
+                int range =(int) Double.parseDouble(model.back[row][column].getRange());
+                int damage = model.back[row][column].getDamage();
+                while(x)
+                {
+                    for (int i = row - range; i < row+range ; i++){
+                        for(int j = column -range ; j <column +range ;j++){
+                            if (i>0 && i <12 && j >0 && j <22){
+                                if(model.back[i][j].isEsnemie)
+                                if (model.back[i][j]!=null && model.back[i][j].getType().equals("archer")||model.back[i][j].getType().equals("barbarian")||model.back[i][j].getType().equals("valkyrie")||model.back[i][j].getType().equals("wizard")||model.back[i][j].getType().equals("cannon")||model.back[i][j].getType().equals("infernoTower")||model.back[i][j].getType().equals("tower")||model.back[i][j].getType().equals("giant")){
+                                    while (model.back[row][column]!=null || model.back[i][j]!=null ){
+                                        System.out.println("checked");
+                                        model.back[row][column].setHittingMode(true);
+                                        model.back[i][j].setHP(model.back[i][j].getHP()-damage);
+                                        try {
+                                            Thread.sleep((int)model.back[i][j].getHitSpeed());
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    long timepassed=System.currentTimeMillis()-starttime;
+                    long secondspassed=timepassed/1000;
+                    if(secondspassed==60)
+                    {
+                        secondspassed=0;
+                        starttime=System.currentTimeMillis();
+                    }
+                    if((secondspassed%60)==0)
+                        displayMinutes++;
+
+                    if (displayMinutes==0 && secondspassed ==30){
+                        model.grid[row][column] = Model.CellValue.GROUND;
+                        model.back[row][column]=null;
+                        break;}
+                }
+
+
+            }
+        };
+    }
+
+    public void moveToMyKingTower(Member member) throws InterruptedException {
+        if(member!=null){
+            int row = member.getLocation().getX();
+            int column = member.getLocation().getY();
+            System.out.println("to thr king");
+            while (row < 5 &&member!=null) {
+                if (model.grid[row + 1][column] == Model.CellValue.GROUND) {
+                    model.back[row + 1][column] = model.back[row][column];
+                    member = model.back[row+1][column];
+                    model.grid[row][column] = Model.CellValue.GROUND;
+                    model.back[row][column] = null;
+                    row = row + 1;
+                    if (member!=null)
+                        switch (member.getSpeed()) {
+                            case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                            case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                            case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                        }
+                }else
+                    Thread.sleep(100);
+
+            }
+            while (row > 5 &&member!=null) {
+                System.out.println("its greater "+member.getType());
+                if (model.grid[row - 1][column] == Model.CellValue.GROUND) {
+                    model.back[row - 1][column] = model.back[row][column];
+                    member = model.back[row-1][column];
+                    model.grid[row][column] = Model.CellValue.GROUND;
+                    model.back[row][column] = null;
+                    row = row - 1;
+
+                    if(member!=null)
+                        switch (member.getSpeed()) {
+                            case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                            case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                            case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                        }
+                }else
+                    Thread.sleep(100);
+            }
+            while (column  < 5&& member!=null) {
+                if (model.grid[row][column - 1] == Model.CellValue.GROUND) {
+                    model.back[row][column - 1] = model.back[row][column];
+                    member = model.back[row][column + 1];
+                    model.grid[row][column] = Model.CellValue.GROUND;
+                    model.back[row][column] = null;
+                    column = column - 1;
+
+                    switch (member.getSpeed()) {
+                        case "Slow" -> TimeUnit.MILLISECONDS.sleep(500);
+                        case "Medium" -> TimeUnit.MILLISECONDS.sleep(300);
+                        case "Fast" -> TimeUnit.MILLISECONDS.sleep(150);
+                    }
+                } else if (model.back[row][column - 1].isEsnemie()) {
+                    System.out.println("i am here ");
+                    System.out.println("shlicking in ing ");
+                    Shlick(row, column, row, column + 1);
+                    break;
+                }else if(model.grid[row][column - 1] != Model.CellValue.GROUND){
+                    System.out.println("this is the case");
+                    ShlickInRange(row,column,member);
+                    Thread.sleep(500);
+                }
+
+                //break;
+            }
+        }}
 }
