@@ -3,8 +3,15 @@ package Members.Players;
 import Members.Player;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class Valkyrie extends Player {
     public Valkyrie(){
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\valkyrie.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setType("valkyrie");
         setImage(new Image("Game/valkirye.png"));
         setHitSpeed(1500);

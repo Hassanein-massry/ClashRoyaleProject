@@ -16,10 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Arc;
 
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -541,6 +541,8 @@ if(model.back[2][6]==null || model.back[8][6]==null){
 }
 
 if(counter>0 || counter5>0){
+
+
     if(model.back[5][4] ==null){
         System.out.println("You lose");
         for(int i = 0 ; i < 12; i++)
@@ -548,15 +550,22 @@ if(counter>0 || counter5>0){
                 model.back[i][j] = null;
                 model.grid[i][j] = Model.CellValue.GROUND;
             }
+
+
+
+
+
     }
     if (model.back[5][19]==null){
-        System.out.println("You win");
         for(int i = 0 ; i < 12; i++)
             for (int j = 0 ;j < 22 ; j ++){
                 model.back[i][j] = null;
                 model.grid[i][j] = Model.CellValue.GROUND;
 
             }
+        System.out.println("You win");
+
+
     }
 
 
@@ -713,6 +722,13 @@ if(counter>0 || counter5>0){
         else if (row1==8 && column1 ==17){
             HP =SecondTowerHP;
         flag=2;}
+        else if (row1==2 && column1 ==6){
+            HP = myFirstTowerHP;
+            flag=4;
+        } else if (row1==8 && column1 ==6){
+            HP = mySecondTowerHp;
+            flag=5;
+        }
         else {HP = model.back[row1][column1].getHP();
         flag=3;}
         if(model.back[row][column]!=null)
@@ -723,11 +739,12 @@ if(counter>0 || counter5>0){
         int speedOfHit = (int)model.back[row][column].getHitSpeed();
         while (model.back[row1][column1] !=null && model.back[row1][column1].getHP()>0 &&model.back[row][column]!=null &&HP>0){
             model.back[row1][column1].setHP(HP-damage);
-            System.out.println("fuck"+model.back[row1][column1].getHP());
             HP=HP-damage;
             switch (flag){
                 case 1-> firstTowerHP = HP;
                 case 2->SecondTowerHP =HP;
+                case 4->myFirstTowerHP = HP;
+                case 5->mySecondTowerHp=HP;
             }
             TimeUnit.MILLISECONDS.sleep(speedOfHit);
         }
@@ -884,7 +901,7 @@ Runnable TowerRunnable = new Runnable() {
                                     model.back[i][j].setHP(model.back[i][j].getHP()-Damage);
                                     System.out.println(" ^^^^ "+model.back[i][j].getType()+" +"+ model.back[i][j].getHP());
                                     //  System.out.println("Speed "+model.back[row][column].getHitSpeed());
-                                    model.back[row][column].setHP(model.back[row][column].getHP()-100);
+                                    //model.back[row][column].setHP(model.back[row][column].getHP()-100);
                                     TimeUnit.MILLISECONDS.sleep(speed);
                                 }
                                 model.back[row][column].setHittingMode(false);
@@ -924,6 +941,80 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                             //  System.out.println("Speed "+model.back[row][column].getHitSpeed());
                             TimeUnit.MILLISECONDS.sleep(speed);
                         }
+                        try {
+                            BufferedReader coinsReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\coins.txt"));
+                            String line = null;
+                            int coins = 0;
+                            while ((line = coinsReader.readLine()) != null) {
+                                System.out.println(line);
+                                coins = Integer.parseInt(line);
+                            }
+                            int a = coins +30;
+                            BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\coins.txt"));
+                            wr.write(String.valueOf(a));
+                            wr.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            BufferedReader troffiesReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\Trophies.txt"));
+                            String line = null;
+                            int vl = 0;
+                            while ((line = troffiesReader.readLine()) != null) {
+                                System.out.println(line);
+                                vl = Integer.parseInt(line);
+                            }
+                            int a = vl +30;
+                            BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\Trophies.txt"));
+                            wr.write(String.valueOf(a));
+                            wr.close();
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        StringBuilder s = new StringBuilder();
+                        s.append(" ");
+                        BufferedReader historyReader = null;
+                        try {
+                            historyReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\history.txt"));
+
+                            String line = null ;
+
+                            int vl = 0;
+                            while (true) {
+                                try {
+                                    if (!((line = historyReader.readLine()) != null)) break;
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                s.append(" "+line);
+                            }
+
+                            s.append(" win");
+                            try {
+                                historyReader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+
+                            BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\history.txt"));
+
+                            wr.write(s.toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -955,6 +1046,76 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                                 System.out.println(" ^^^^ "+model.back[i][j].getType()+" +"+ model.back[i][j].getHP());
                                 //  System.out.println("Speed "+model.back[row][column].getHitSpeed());
                                 TimeUnit.MILLISECONDS.sleep(speed);
+                            }
+                            try {
+                                BufferedReader coinsReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\coins.txt"));
+                                String line = null;
+                                int coins = 0;
+                                while ((line = coinsReader.readLine()) != null) {
+                                    System.out.println(line);
+                                    coins = Integer.parseInt(line);
+                                }
+                                int a = coins -30;
+                                BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\coins.txt"));
+                                wr.write(String.valueOf(a));
+                                wr.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                BufferedReader troffiesReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\Trophies.txt"));
+                                String line = null;
+                                int vl = 0;
+                                while ((line = troffiesReader.readLine()) != null) {
+                                    System.out.println(line);
+                                    vl = Integer.parseInt(line);
+                                }
+                                int a = vl -30;
+                                BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\Trophies.txt"));
+                                wr.write(String.valueOf(a));
+                                wr.close();
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            StringBuilder s = new StringBuilder();
+
+                            BufferedReader historyReader = null;
+                            try {
+                                historyReader = new BufferedReader(new FileReader("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\history.txt"));
+                                String line = null ;
+
+                                int vl = 0;
+                                while (true) {
+                                    try {
+                                        if (!((line = historyReader.readLine()) != null)) break;
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    s.append(" ").append(line);
+                                }
+                                try {
+                                    historyReader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+
+                                }
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            try {
+
+                                BufferedWriter wr = new BufferedWriter(new FileWriter("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\history.txt"));
+                                wr.write(s.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
@@ -1258,7 +1419,6 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
 
 
     public void ShlickInRange(int row , int column , Member member) throws InterruptedException {
-        System.out.println("fu  ");
         if (member!=null){
             int damage = member.getDamage();
             int speedOfHit = (int )member.getHitSpeed();
@@ -1281,7 +1441,6 @@ public void ShlickMyKingTower(int row , int column ) throws InterruptedException
                                 while (model.back[i][j] !=null && model.back[i][j].getHP()>0){
                                     model.back[row][column].setHittingMode(true);
                                     model.back[i][j].setHP(model.back[i][j].getHP()-damage);
-                                    System.out.println("fucked"+model.back[i][j].getHP());
                                     TimeUnit.MILLISECONDS.sleep(speedOfHit);
                                 }
                             }
@@ -1871,7 +2030,7 @@ public void moveToMySecondTower(int row , int column ,Member member) throws Inte
                     }
                 } else if (model.back[row][column - 1].isEsnemie()) {
                     System.out.println("i am here ");
-                    System.out.println("shlicking in ing ");
+                    System.out.println("shlicking in king ");
                     Shlick(row, column, row, column + 1);
                     break;
                 }else if(model.grid[row][column - 1] != Model.CellValue.GROUND){

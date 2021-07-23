@@ -2,8 +2,15 @@ package Members.Towers;
 
 import Members.Tower;
 
+import java.io.IOException;
+
 public class KingTower extends Tower {
     public KingTower(){
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\kinglevel.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //setImage()
         setTower(true);
         setRange("7");

@@ -3,8 +3,15 @@ package Members.Players;
 import Members.Player;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class MiniPekka extends Player {
     public MiniPekka(){
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\pekka.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setImage(new Image("Game/mini.png"));
         setHitSpeed(1800);
         setType("miniPekka");

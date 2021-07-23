@@ -3,8 +3,15 @@ package Members.Players;
 import Members.Player;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class Wizard extends Player {
         public Wizard(){
+            try {
+                readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\wizard.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             setType("wizard");
             setImage(new Image("Game/wizard.png"));
             setHitSpeed(1700);

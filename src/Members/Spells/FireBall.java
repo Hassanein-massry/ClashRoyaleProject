@@ -3,8 +3,15 @@ package Members.Spells;
 import Members.Spell;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class FireBall extends Spell {
     public FireBall(){
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\fireball.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setHP(1);
         setType("fireBall");
         setRadius(2.5);

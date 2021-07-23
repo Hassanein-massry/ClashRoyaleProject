@@ -3,11 +3,18 @@ package Members.Players;
 import Members.Player;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class Archer extends Player {
     /**
      * constructor of the archer player class
      */
-    public Archer(){
+    public Archer()  {
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\archer.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setType("archer");
         //setting all the proprieties of the archer player
         setImage(new Image("Game/archer.png"));
@@ -19,20 +26,20 @@ public class Archer extends Player {
         setCost(3);
         setCount(2);
         if (getLevel() == 1){
-            setHP(300);
-            setDamage(30);
-        }else if (getLevel() == 2){
-            setHP(350);
-            setDamage(44);
-        }else if (getLevel() == 3){
             setHP(400);
-            setDamage(48);
-        } else if (getLevel() == 4){
+            setDamage(60);
+        }else if (getLevel() == 2){
             setHP(450);
-            setDamage(53);
-        }else if (getLevel() == 5){
+            setDamage(80);
+        }else if (getLevel() == 3){
             setHP(500);
-            setDamage(58);
+            setDamage(100);
+        } else if (getLevel() == 4){
+            setHP(550);
+            setDamage(120);
+        }else if (getLevel() == 5){
+            setHP(600);
+            setDamage(125);
         }
 
     }

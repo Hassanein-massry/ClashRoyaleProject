@@ -3,8 +3,15 @@ package Members.Players;
 import Members.Player;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+
 public class Giant extends Player {
     public Giant(){
+        try {
+            readFromFile("C:\\Users\\Envy\\Clash-royale-first-pages-setup-master\\giant.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setType("giant");
         setImage(new Image("Game/giant.png"));
         setHitSpeed(1500);

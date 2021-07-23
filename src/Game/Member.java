@@ -4,6 +4,10 @@ import Game.Location;
 import Game.Model;
 import javafx.scene.image.Image;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Member {
@@ -388,7 +392,9 @@ public class Member {
             break;
         }
     }
-
-
+    public void readFromFile(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        setLevel(Integer.parseInt(reader.readLine()));
+    }
 }
 
